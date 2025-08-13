@@ -1,5 +1,4 @@
 'use client';
-import EmojiPickerInput from '@/components/emoji-picker';
 import {
   Modal,
   ModalContent,
@@ -11,13 +10,18 @@ import {
   Input,
 } from '@heroui/react';
 import { Plus } from 'lucide-react';
-import listIcon from '../../../components/icon-picker/list-icon';
-import { DynamicIcon } from 'lucide-react/dynamic';
-import colors from './list-color';
-import IconPicker from '@/components/icon-picker';
+import ColorSelect from '@/components/color-select';
+import IconSelect from '@/components/icon-select';
+import { useActionState, useState } from 'react';
+import colors from '@/constants/colors-select';
+import { createCategory } from '@/actions/category-actions';
 
 export default function AddCategory() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [color, setColor] = useState(colors[0]);
+  const [state, formAction, pending] = useActionState(createCategory, {
+    message: '',
+  });
 
   return (
     <>
@@ -27,7 +31,7 @@ export default function AddCategory() {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
-            <>
+            <form action={formAction}>
               <ModalHeader className="flex flex-col gap-1">
                 New category
               </ModalHeader>
@@ -36,34 +40,22 @@ export default function AddCategory() {
                   <Input
                     label="Category name"
                     placeholder="Category"
-                    type="categoryName"
-                    id="categoryName"
-                    name="categoryName"
+                    type="name"
+                    id="name"
+                    name="name"
                     radius="full"
                     labelPlacement="outside-top"
                     isRequired
                   />
                   <div className="flex flex-col gap-2">
-                    <p className="text-small text-foreground font-medium">
-                      Category icon
-                    </p>
-                    <IconPicker />
+                    <IconSelect label="Icons" name="icon" colorSelect={color} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <p className="text-small text-foreground font-semibold">
-                      Color
-                    </p>
-                    <div className="flex gap-2 flex-wrap">
-                      {colors.map((color) => {
-                        return (
-                          <div
-                            key={color}
-                            className={`bg-[${color}] rounded-full w-12 h-12`}
-                            style={{ backgroundColor: color }}
-                          ></div>
-                        );
-                      })}
-                    </div>
+                    <ColorSelect
+                      label="Colors"
+                      name="color"
+                      onSelect={(value) => setColor(value)}
+                    />
                   </div>
                 </div>
               </ModalBody>
@@ -85,7 +77,7 @@ export default function AddCategory() {
                   Create
                 </Button>
               </ModalFooter>
-            </>
+            </form>
           )}
         </ModalContent>
       </Modal>

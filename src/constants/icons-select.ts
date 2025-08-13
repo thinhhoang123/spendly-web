@@ -1,4 +1,4 @@
-const listIcon = [
+const icons = [
   { name: 'Shirt', icon: 'shirt' },
   { name: 'Utensils', icon: 'utensils' },
   { name: 'Train', icon: 'train-front' },
@@ -13,4 +13,4 @@ const listIcon = [
   { name: 'Car', icon: 'car' },
   { name: 'Book', icon: 'book-text' },
 ];
-export default listIcon;
+export default icons;

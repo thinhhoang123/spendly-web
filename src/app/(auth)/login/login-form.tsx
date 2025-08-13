@@ -6,7 +6,7 @@ import { useActionState } from 'react';
 
 export default function LoginForm() {
   const [state, formAction, pending] = useActionState(login, { message: '' });
-  console.log(state);
+
   return (
     <form className="flex flex-col gap-6 w-96" action={formAction}>
       <Input
