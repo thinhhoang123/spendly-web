@@ -1,11 +1,14 @@
+'use client';
+import { login } from '@/actions/auth-action';
 import PasswordInput from '@/components/password-input';
-import { Input } from '@heroui/input';
-import { Button } from '@heroui/button';
-import { signup } from '@/actions/auth-action';
+import { Button, Input } from '@heroui/react';
+import { useActionState } from 'react';
 
-export default function SignUp() {
+export default function LoginForm() {
+  const [state, formAction, pending] = useActionState(login, { message: '' });
+  console.log(state);
   return (
-    <form className="flex flex-col gap-6 w-96">
+    <form className="flex flex-col gap-6 w-96" action={formAction}>
       <Input
         label="Email"
         placeholder="Enter your email"
@@ -26,19 +29,8 @@ export default function SignUp() {
         labelPlacement="outside-top"
         isRequired
       />
-
-      <PasswordInput
-        label="Confirm Password"
-        placeholder="Enter your password"
-        id="confirm-password"
-        name="confirm-password"
-        variant="bordered"
-        labelPlacement="outside-top"
-        isRequired
-      />
-
-      <Button type="submit" formAction={signup}>
-        Sign up
+      <Button type="submit" color="primary" isLoading={pending}>
+        Log in
       </Button>
     </form>
   );

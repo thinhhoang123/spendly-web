@@ -2,10 +2,19 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
+import loginSchema from './schemas/login' 
 
-export async function login(formData: FormData) {
+export async function login( initialState: object, formData: FormData) {
+   const validatedFields = loginSchema.safeParse({
+     email: formData.get('email') as string,
+     password: formData.get("password") as string
+   })
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    }
+  }
   const supabase = await createClient()
 
   const data = {

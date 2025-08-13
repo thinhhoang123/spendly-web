@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
-import { Input } from '@heroui/react';
+import { Input, InputProps } from '@heroui/react';
 import { Eye, EyeClosed } from 'lucide-react';
 
-export default function PasswordInput() {
+export default function PasswordInput(props: InputProps) {
   const [isVisible, setIsVisible] = React.useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -25,15 +25,8 @@ export default function PasswordInput() {
           )}
         </button>
       }
-      label="Password"
-      placeholder="Enter your password"
       type={isVisible ? 'text' : 'password'}
-      id="password"
-      name="password"
-      variant="bordered"
-      labelPlacement="outside-top"
-      size="lg"
-      isRequired
+      {...props}
     />
   );
 }
