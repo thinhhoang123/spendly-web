@@ -1,7 +1,6 @@
-import AddCategory from './add-category';
 import { getCategories } from '@/actions/category-actions';
-import ListCategories from './list-categories';
-
+import ListCategories from './_components/list-categories';
+import AddCategory from './_components/add-category';
 export default async function CategoryPage() {
   const categories = await getCategories();
   return (

@@ -1,26 +1,26 @@
+'use client';
 import { cn, RadioGroup, useRadio, VisuallyHidden } from '@heroui/react';
-import colors from '../constants/colors-select';
+import COLORS from '../constants/colors-select';
 import { Circle } from 'lucide-react';
+import { useColor } from '@/stores/category-stores';
 
 interface ColorSelectProps {
   label?: string;
   name?: string;
   onSelect?: (value: string) => void;
 }
-export default function ColorSelect({
-  label,
-  name,
-  onSelect,
-}: ColorSelectProps) {
+export default function ColorSelect({ label, name }: ColorSelectProps) {
+  const defaultColor = useColor((state) => state.color);
+  const updateColorSelect = useColor((state) => state.updateColor);
   return (
     <RadioGroup
-      defaultValue={colors[0]}
+      defaultValue={defaultColor}
       label={label}
       name={name}
       orientation="horizontal"
-      onChange={(event) => onSelect?.(event.target.value)}
+      onChange={(event) => updateColorSelect?.(event.target.value)}
     >
-      {colors.map((color) => {
+      {COLORS.map((color) => {
         return <ColorRadio value={color} key={color} />;
       })}
     </RadioGroup>

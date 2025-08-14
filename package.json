@@ -19,7 +19,8 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "supabase": "^2.33.9",
-    "zod": "^4.0.17"
+    "zod": "^4.0.17",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

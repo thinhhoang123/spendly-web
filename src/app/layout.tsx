@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import Layout from '@/layouts';
 import Providers from '@/providers/hero-ui';
 import '@/styles/globals.css';
 import { fontMono, fontSans } from '@/configs/fonts';
@@ -25,4 +23,3 @@ export default function RootLayout({
     </html>
   );
 }
-

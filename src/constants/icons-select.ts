@@ -1,4 +1,6 @@
-const icons = [
+import { IconName } from 'lucide-react/dynamic';
+
+const ICONS: { name: string; icon: IconName }[] = [
   { name: 'Shirt', icon: 'shirt' },
   { name: 'Utensils', icon: 'utensils' },
   { name: 'Train', icon: 'train-front' },
@@ -12,5 +14,18 @@ const icons = [
   { name: 'Taxi', icon: 'car-taxi-front' },
   { name: 'Car', icon: 'car' },
   { name: 'Book', icon: 'book-text' },
+  { name: 'Piggy Bank', icon: 'piggy-bank' },
+  { name: 'Investment', icon: 'chart-candlestick' },
+  { name: 'Electric', icon: 'house-plug' },
+  { name: 'Wifi', icon: 'house-wifi' },
+  { name: 'Cleaning', icon: 'brush-cleaning' },
+  { name: 'Skin care', icon: 'soap-dispenser-droplet' },
+  { name: 'Hotel', icon: 'hotel' },
+  { name: 'Luggage', icon: 'luggage' },
+  { name: 'Music', icon: 'music-4' },
+  { name: 'Fuel', icon: 'fuel' },
+  { name: 'Coffee', icon: 'coffee' },
+  { name: 'Washing Machine', icon: 'washing-machine' },
+  { name: 'Gym', icon: 'dumbbell' },
 ];
-export default icons;
+export default ICONS;

@@ -1,4 +1,4 @@
-const colors = [
+const COLORS = [
   '#64748b', // slate-500
   '#737373', // neutral-500
   '#ef4444', // red-500
@@ -19,4 +19,4 @@ const colors = [
   '#ec4899', // pink-500
   '#f43f5e', // rose-500
 ];
-export default colors;
+export default COLORS;
