@@ -12,16 +12,22 @@ import {
 import { Plus } from 'lucide-react';
 import ColorSelect from '@/components/color-select';
 import IconSelect from '@/components/icon-select';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import colors from '@/constants/colors-select';
 import { createCategory } from '@/actions/category-actions';
 
 export default function AddCategory() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [color, setColor] = useState(colors[0]);
   const [state, formAction, pending] = useActionState(createCategory, {
     message: '',
   });
+
+  useEffect(() => {
+    if (!pending && state) {
+      onClose();
+    }
+  }, [pending, state]);
 
   return (
     <>
@@ -71,7 +77,7 @@ export default function AddCategory() {
                 <Button
                   color="primary"
                   type="submit"
-                  onPress={onClose}
+                  isLoading={pending}
                   radius="full"
                 >
                   Create

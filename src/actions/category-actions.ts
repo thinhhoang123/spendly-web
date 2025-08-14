@@ -1,8 +1,13 @@
 'use server';
 
+import Category from '@/models/Category';
 import { createClient } from '@/utils/supabase/server';
+import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 
 export async function getCategories() {
+  const cookieStore = await cookies();
+  console.log(cookieStore.get(''));
   const supabase = await createClient();
 
   const {
@@ -29,7 +34,7 @@ export async function getCategories() {
     return;
   }
 
-  return data;
+  return data as Category[];
 }
 
 export async function createCategory(initialState: object, formData: FormData) {
@@ -63,4 +68,7 @@ export async function createCategory(initialState: object, formData: FormData) {
     console.error('Error inserting category:', error);
     return;
   }
+
+  revalidatePath('/categories', 'page');
+  return data;
 }
