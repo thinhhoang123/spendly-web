@@ -1,27 +1,16 @@
-import { Input } from '@heroui/input';
-import PasswordInput from '@/components/password-input';
-import { Button } from '@heroui/button';
-import { login } from '@/actions/auth-action';
+import { Link } from '@heroui/link';
+import LoginForm from './login-form';
 
 export default function LoginPage() {
   return (
-    <form className="flex flex-col gap-6 w-96">
-      <Input
-        label="Email"
-        placeholder="Enter your email"
-        type="email"
-        id="email"
-        name="email"
-        variant="bordered"
-        labelPlacement="outside-top"
-        size="lg"
-        isRequired
-      />
-
-      <PasswordInput />
-      <Button color="primary" size="lg" type="submit" formAction={login}>
-        Log in
-      </Button>
-    </form>
+    <div className="flex flex-col gap-8">
+      <LoginForm />
+      <div className="text-center text-sm">
+        Don&apos;t have an account?{' '}
+        <Link href="/sign-up" size="sm">
+          Sign up
+        </Link>
+      </div>
+    </div>
   );
 }

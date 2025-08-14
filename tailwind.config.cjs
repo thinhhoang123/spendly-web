@@ -9,15 +9,20 @@ const config = {
         "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}"
     ],
     theme: {
-        extend: {
-            fontFamily: {
-                sans: ["var(--font-sans)"],
-                mono: ["var(--font-mono)"],
-            },
-        },
+        extend: {},
     },
     darkMode: "class",
-    plugins: [heroui()],
+    plugins: [heroui({
+        "layout": {
+            "disabledOpacity": "0.5",
+
+            "borderWidth": {
+                small: "1px", // border-small
+                medium: "1px", // border-medium (default)
+                large: "2px", // border-large
+            },
+        }
+    })],
 }
 
 module.exports = config;
