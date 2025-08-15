@@ -9,7 +9,7 @@ import {
   getKeyValue,
   Pagination,
 } from '@heroui/react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 const rows = [
   {
     id: 1,
@@ -104,7 +104,6 @@ const columns = [
 
 export default function TransactionTable() {
   const [page, setPage] = useState(1);
-  const rowsPerPage = 10;
 
   return (
     <Table

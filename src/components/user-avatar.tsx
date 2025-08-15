@@ -1,7 +1,6 @@
 'use client';
 import { signOut } from '@/actions/auth-action';
 import {
-  Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,

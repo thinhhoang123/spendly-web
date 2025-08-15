@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Providers from '@/providers/hero-ui';
 import '@/styles/globals.css';
 import { fontMono, fontSans } from '@/configs/fonts';
+import QueryProvider from '@/providers/query';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,10 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
-        <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-          {children}
-        </Providers>
+        <QueryProvider>
+          <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
+            {children}
+          </Providers>
+        </QueryProvider>
       </body>
     </html>
   );
 }
+

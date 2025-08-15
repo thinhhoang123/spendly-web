@@ -8,22 +8,16 @@ import {
   Button,
   useDisclosure,
   Input,
+  ScrollShadow,
 } from '@heroui/react';
 import { Plus } from 'lucide-react';
 import ColorSelect from '@/components/color-select';
 import IconSelect from '@/components/icon-select';
-import { useActionState, useEffect } from 'react';
 import { createCategory } from '@/actions/category-actions';
+import KindSelect from '../../../../components/kind-select';
 
 export default function AddCategory() {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const [state, formAction, pending] = useActionState(createCategory, {});
-
-  useEffect(() => {
-    if (!pending && state) {
-      onClose();
-    }
-  }, [pending, state]);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
@@ -33,29 +27,28 @@ export default function AddCategory() {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
-            <form action={formAction}>
+            <form action={createCategory}>
               <ModalHeader className="flex flex-col gap-1">
                 New category
               </ModalHeader>
               <ModalBody>
-                <div className="flex flex-col gap-6">
-                  <Input
-                    label="Category name"
-                    placeholder="Category"
-                    type="name"
-                    id="name"
-                    name="name"
-                    radius="full"
-                    labelPlacement="outside-top"
-                    isRequired
-                  />
-                  <div className="flex flex-col gap-2">
+                <ScrollShadow className="h-[600px]">
+                  <div className="flex flex-col gap-6">
+                    <Input
+                      label="Category name"
+                      placeholder="Category"
+                      type="name"
+                      id="name"
+                      name="name"
+                      radius="full"
+                      labelPlacement="outside-top"
+                      isRequired
+                    />
+                    <KindSelect />
                     <IconSelect label="Icons" name="icon" />
-                  </div>
-                  <div className="flex flex-col gap-2">
                     <ColorSelect label="Colors" name="color" />
                   </div>
-                </div>
+                </ScrollShadow>
               </ModalBody>
               <ModalFooter>
                 <Button
@@ -66,12 +59,7 @@ export default function AddCategory() {
                 >
                   Close
                 </Button>
-                <Button
-                  color="primary"
-                  type="submit"
-                  isLoading={pending}
-                  radius="full"
-                >
+                <Button color="primary" type="submit" radius="full">
                   Create
                 </Button>
               </ModalFooter>
@@ -82,3 +70,4 @@ export default function AddCategory() {
     </>
   );
 }
+

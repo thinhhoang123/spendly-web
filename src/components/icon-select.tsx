@@ -1,11 +1,5 @@
 'use client';
-import {
-  cn,
-  RadioGroup,
-  Tooltip,
-  useRadio,
-  VisuallyHidden,
-} from '@heroui/react';
+import { cn, RadioGroup, useRadio, VisuallyHidden } from '@heroui/react';
 import ICONS from '@/constants/icons-select';
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { hexToRgba } from '@/utils';

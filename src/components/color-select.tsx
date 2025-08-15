@@ -1,5 +1,5 @@
 'use client';
-import { cn, RadioGroup, useRadio, VisuallyHidden } from '@heroui/react';
+import { Button, RadioGroup, useRadio, VisuallyHidden } from '@heroui/react';
 import COLORS from '../constants/colors-select';
 import { Circle } from 'lucide-react';
 import { useColor } from '@/stores/category-stores';
@@ -37,23 +37,24 @@ export const ColorRadio = (props: { value: string }) => {
   } = useRadio(props);
 
   return (
-    <Component
-      {...getBaseProps()}
-      className={cn(
-        'group inline-flex justify-center items-center hover:opacity-90 w-12 h-12 rounded-full cursor-pointer',
-        'data-[selected=true]:border-primary'
-      )}
-      style={{ backgroundColor: getInputProps().value }}
-    >
+    <Component {...getBaseProps()}>
       <VisuallyHidden>
         <input {...getInputProps()} />
         <span {...getWrapperProps()}>
           <span {...getControlProps()} />
         </span>
       </VisuallyHidden>
-      {getInputProps().checked ? (
-        <Circle size={18} fill="white" color="white" />
-      ) : null}
+      <Button
+        variant={getInputProps().checked ? 'solid' : 'bordered'}
+        style={{ backgroundColor: getInputProps().value }}
+        isIconOnly
+        radius="full"
+        as={'div'}
+      >
+        {getInputProps().checked ? (
+          <Circle size={18} fill="white" color="white" />
+        ) : null}
+      </Button>
     </Component>
   );
 };

@@ -6,11 +6,12 @@ export default function Loading() {
       <div className="flex items-center justify-between">
         <p className="text-2xl font-bold">Categories</p>
       </div>
-      <div className="flex gap-4 flex-wrap">
-        {Array.from({ length: 10 }, (_, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 12 }, (_, index) => (
           <CategoryCardSkeleton key={index} />
         ))}
       </div>
     </section>
   );
 }
+
