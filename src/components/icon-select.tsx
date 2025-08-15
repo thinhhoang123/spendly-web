@@ -1,35 +1,27 @@
-import {
-  cn,
-  RadioGroup,
-  Tooltip,
-  useRadio,
-  VisuallyHidden,
-} from '@heroui/react';
-import icons from '@/constants/icons-select';
+'use client';
+import { cn, RadioGroup, useRadio, VisuallyHidden } from '@heroui/react';
+import ICONS from '@/constants/icons-select';
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { hexToRgba } from '@/utils';
+import { BACKGROUND_OPACITY } from '@/constants';
+import { useColor } from '@/stores/category-stores';
 
 interface IconSelectProps {
   label?: string;
   name?: string;
   onSelect?: (value: string) => void;
-  colorSelect?: string;
 }
-export default function IconSelect({
-  label,
-  name,
-  onSelect,
-  colorSelect,
-}: IconSelectProps) {
+export default function IconSelect({ label, name, onSelect }: IconSelectProps) {
+  const colorSelect = useColor((state) => state.color);
   return (
     <RadioGroup
-      defaultValue={icons[0].icon}
+      defaultValue={ICONS[0].icon}
       label={label}
       name={name}
       orientation="horizontal"
       onChange={(event) => onSelect?.(event.target.value)}
     >
-      {icons.map((icon) => {
+      {ICONS.map((icon) => {
         return (
           <IconRadio
             value={icon.icon}
@@ -61,12 +53,12 @@ export const IconRadio = ({
     <Component
       {...getBaseProps()}
       className={cn(
-        'group inline-flex justify-center items-center hover:opacity-90 w-12 h-12 rounded-full cursor-pointer',
+        'group inline-flex justify-center items-center hover:opacity-90 hover:bg-neutral-100 w-12 h-12 rounded-full cursor-pointer',
         'data-[selected=true]:border-1'
       )}
       style={{
         backgroundColor: getInputProps().checked
-          ? hexToRgba(colorSelect ?? '#fff', '0.2')
+          ? hexToRgba(colorSelect ?? '#fff', BACKGROUND_OPACITY)
           : null,
         borderColor: getInputProps().checked ? colorSelect : null,
       }}

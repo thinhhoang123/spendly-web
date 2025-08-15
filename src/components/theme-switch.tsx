@@ -19,9 +19,8 @@ export default function ThemeSwitch({
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
 
-  const onChange = () => {
+  const onChange = () =>
     theme === 'light' ? setTheme('dark') : setTheme('light');
-  };
 
   const {
     Component,

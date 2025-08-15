@@ -5,7 +5,7 @@ import { signup } from '@/actions/auth-action';
 
 export default function SignUp() {
   return (
-    <form className="flex flex-col gap-6 w-96">
+    <form className="flex flex-col gap-6 w-96" action={signup}>
       <Input
         label="Email"
         placeholder="Enter your email"
@@ -37,9 +37,7 @@ export default function SignUp() {
         isRequired
       />
 
-      <Button type="submit" formAction={signup}>
-        Sign up
-      </Button>
+      <Button type="submit">Sign up</Button>
     </form>
   );
 }

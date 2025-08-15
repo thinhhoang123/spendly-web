@@ -7,7 +7,6 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from '@heroui/navbar';
-import { Button } from '@heroui/button';
 import { Kbd } from '@heroui/kbd';
 import { Link } from '@heroui/link';
 import { Input } from '@heroui/input';
@@ -16,7 +15,6 @@ import NextLink from 'next/link';
 import clsx from 'clsx';
 import ThemeSwitch from '@/components/theme-switch';
 import routes from '@/configs/routes';
-import { Avatar } from '@heroui/react';
 import UserAvatar from '@/components/user-avatar';
 
 export default function Navbar() {
@@ -100,23 +98,13 @@ export default function Navbar() {
       <NavbarMenu>
         {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {/* {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? 'primary'
-                    : index === siteConfig.navMenuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
-                }
-                href="#"
-                size="lg"
-              >
-                {item.label}
+          {routes.map((route) => (
+            <NavbarMenuItem key={route.href}>
+              <Link color={'foreground'} href={route.href} size="lg">
+                {route.label}
               </Link>
             </NavbarMenuItem>
-          ))} */}
+          ))}
         </div>
       </NavbarMenu>
     </HeroUINavbar>

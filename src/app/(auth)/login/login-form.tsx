@@ -2,22 +2,19 @@
 import { login } from '@/actions/auth-action';
 import PasswordInput from '@/components/password-input';
 import { Button, Input } from '@heroui/react';
-import { useActionState } from 'react';
 
 export default function LoginForm() {
-  const [state, formAction, pending] = useActionState(login, { message: '' });
-
   return (
-    <form className="flex flex-col gap-6 w-96" action={formAction}>
+    <form className="flex flex-col gap-6" action={login}>
       <Input
         label="Email"
         placeholder="Enter your email"
         type="email"
         id="email"
         name="email"
-        variant="bordered"
         labelPlacement="outside-top"
         isRequired
+        radius="full"
       />
 
       <PasswordInput
@@ -25,11 +22,11 @@ export default function LoginForm() {
         placeholder="Enter your password"
         id="password"
         name="password"
-        variant="bordered"
-        labelPlacement="outside-top"
         isRequired
+        labelPlacement="outside-top"
+        radius="full"
       />
-      <Button type="submit" color="primary" isLoading={pending}>
+      <Button type="submit" color="primary" radius="full" className="mt-2">
         Log in
       </Button>
     </form>
