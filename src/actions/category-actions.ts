@@ -5,6 +5,8 @@ import Category from '@/models/Category';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { getUserId } from './auth-action';
+import ActionResponse from '@/models/ActionResponse';
+import CategoryRequest from '@/models/CategoryRequest';
 
 export async function getCategories() {
   const supabase = await createClient();
@@ -23,29 +25,40 @@ export async function getCategories() {
 
   return data as Category[];
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createCategory(formData: FormData): Promise<void> {
+
+export async function createCategory(
+  _: ActionResponse<CategoryRequest> | null,
+  formData: FormData
+): Promise<ActionResponse<CategoryRequest>> {
   const supabase = await createClient();
   const userId = await getUserId();
 
-  const request = {
+  const data: CategoryRequest = {
     name: formData.get('name') as string,
     icon: formData.get('icon') as string,
     color: formData.get('color') as string,
+    kind: formData.get('kind') as string,
     created_by: userId,
   };
 
   const { error } = await supabase
     .from(SUPABASE_TABLE.CATEGORIES)
-    .insert(request)
+    .insert([data])
     .select();
 
   if (error) {
-    console.error('Error inserting category:', error);
-    return;
+    return {
+      success: false,
+      message: 'Can not create category',
+      inputs: data,
+    };
   }
 
   revalidatePath('/categories', 'page');
+  return {
+    success: true,
+    message: 'Create success',
+  };
 }
 
 export async function deleteCategory(id: number) {

@@ -40,12 +40,16 @@ export const CustomRadio = (props: {
     </Component>
   );
 };
-
-export default function KindSelect() {
+interface KindSelectProps {
+  label?: string;
+  name?: string;
+}
+export default function KindSelect({ label, name }: KindSelectProps) {
   return (
     <RadioGroup
       defaultValue={KINDS.EXPENSE.toString()}
-      label="Kinds"
+      label={label}
+      name={name}
       orientation="horizontal"
       onChange={(val) => console.log(val.target.value)}
     >

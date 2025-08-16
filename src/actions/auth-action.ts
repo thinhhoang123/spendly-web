@@ -5,26 +5,37 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import loginSchema from './schemas/login';
 import { User } from '@/models/UserToken';
+import ActionResponse from '@/models/ActionResponse';
+import LoginRequest from '@/models/LoginRequest';
 
-export async function login(formData: FormData): Promise<void> {
-  const validatedFields = loginSchema.safeParse({
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  });
-  if (!validatedFields.success) {
-    return;
-  }
-  const supabase = await createClient();
-
-  const data = {
+export async function login(
+  _: ActionResponse<LoginRequest> | null,
+  formData: FormData
+): Promise<ActionResponse<LoginRequest>> {
+  const data: LoginRequest = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   };
 
-  const { error } = await supabase.auth.signInWithPassword(data);
+  const validatedFields = loginSchema.safeParse(data);
 
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message: '',
+      errors: validatedFields.error.flatten().fieldErrors,
+      inputs: data,
+    };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword(data);
+  console.log(error);
   if (error) {
-    redirect('/error');
+    return {
+      success: false,
+      message: 'Incorrect email or password',
+      inputs: data,
+    };
   }
 
   revalidatePath('/', 'layout');

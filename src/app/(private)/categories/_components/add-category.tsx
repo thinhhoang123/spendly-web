@@ -15,10 +15,16 @@ import ColorSelect from '@/components/color-select';
 import IconSelect from '@/components/icon-select';
 import { createCategory } from '@/actions/category-actions';
 import KindSelect from '../../../../components/kind-select';
-
+import SubmitButton from '@/components/submit-btn';
+import { useActionState } from 'react';
 export default function AddCategory() {
+  const initialState = { message: '', success: false };
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const [state, formAction, isPending] = useActionState(
+    createCategory,
+    initialState
+  );
+  console.log(state);
   return (
     <>
       <Button isIconOnly color="primary" radius="full" onPress={onOpen}>
@@ -27,43 +33,44 @@ export default function AddCategory() {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
-            <form action={createCategory}>
+            <>
               <ModalHeader className="flex flex-col gap-1">
                 New category
               </ModalHeader>
-              <ModalBody>
-                <ScrollShadow className="h-[600px]">
-                  <div className="flex flex-col gap-6">
-                    <Input
-                      label="Category name"
-                      placeholder="Category"
-                      type="name"
-                      id="name"
-                      name="name"
-                      radius="full"
-                      labelPlacement="outside-top"
-                      isRequired
-                    />
-                    <KindSelect />
-                    <IconSelect label="Icons" name="icon" />
-                    <ColorSelect label="Colors" name="color" />
-                  </div>
-                </ScrollShadow>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  color="danger"
-                  variant="light"
-                  onPress={onClose}
-                  radius="full"
-                >
-                  Close
-                </Button>
-                <Button color="primary" type="submit" radius="full">
-                  Create
-                </Button>
-              </ModalFooter>
-            </form>
+              <form action={formAction}>
+                <ModalBody>
+                  <ScrollShadow className="h-[600px]">
+                    <div className="flex flex-col gap-6">
+                      <Input
+                        label="Category name"
+                        placeholder="Category"
+                        type="name"
+                        id="name"
+                        name="name"
+                        radius="full"
+                        labelPlacement="outside-top"
+                        isRequired
+                      />
+                      <KindSelect name="kind" label="Kinds" />
+                      <IconSelect label="Icons" name="icon" />
+                      <ColorSelect label="Colors" name="color" />
+                    </div>
+                  </ScrollShadow>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="danger"
+                    variant="light"
+                    onPress={onClose}
+                    radius="full"
+                    type="button"
+                  >
+                    Close
+                  </Button>
+                  <SubmitButton isLoading={isPending}>Create</SubmitButton>
+                </ModalFooter>
+              </form>
+            </>
           )}
         </ModalContent>
       </Modal>
