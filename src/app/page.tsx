@@ -1,4 +1,7 @@
+import { redirect } from 'next/navigation';
+
 export default function Home() {
+  redirect('/transactions');
   return (
     <div>
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis eum

@@ -2,7 +2,7 @@
 import { Button } from '@heroui/react';
 import { Search } from 'lucide-react';
 import TransactionTable from './transaction-table';
-import { DateRangePicker, Input, Select, SelectItem } from '@heroui/react';
+import { DateRangePicker, Input } from '@heroui/react';
 import AddTransaction from './_components/add-transactions';
 export default function Transactions() {
   return (

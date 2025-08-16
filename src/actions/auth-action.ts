@@ -4,9 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import loginSchema from './schemas/login';
-import { cookies } from 'next/headers';
-import { jwtDecode } from 'jwt-decode';
-import { AuthResponse } from '@/models/UserToken';
+import { User } from '@/models/UserToken';
 
 export async function login(formData: FormData): Promise<void> {
   const validatedFields = loginSchema.safeParse({
@@ -64,14 +62,13 @@ export async function signOut() {
   redirect('/login');
 }
 
-export async function getUserToken(): Promise<AuthResponse> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  const getToken = token?.split('-')[1];
-  return jwtDecode<AuthResponse>(getToken as string, { header: true });
+export async function getUserInformation(): Promise<User> {
+  const supabase = await createClient();
+  const session = await supabase.auth.getSession();
+  return session.data.session?.user as User;
 }
 
 export async function getUserId() {
-  const user = await getUserToken();
-  return user.user.identities[0].user_id;
+  const user = await getUserInformation();
+  return user.identities[0].user_id;
 }

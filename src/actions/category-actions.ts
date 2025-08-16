@@ -9,7 +9,7 @@ import { getUserId } from './auth-action';
 export async function getCategories() {
   const supabase = await createClient();
   const userId = await getUserId();
-  console.log(userId);
+
   const { data, error } = await supabase
     .from(SUPABASE_TABLE.CATEGORIES)
     .select('*')
