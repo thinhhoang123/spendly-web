@@ -4,9 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import loginSchema from './schemas/login';
-import { cookies } from 'next/headers';
-import { jwtDecode } from 'jwt-decode';
-import { AuthResponse, User } from '@/models/UserToken';
+import { User } from '@/models/UserToken';
 
 export async function login(formData: FormData): Promise<void> {
   const validatedFields = loginSchema.safeParse({
