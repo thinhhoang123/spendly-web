@@ -7,61 +7,47 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from '@heroui/navbar';
-import { Kbd } from '@heroui/kbd';
 import { Link } from '@heroui/link';
-import { Input } from '@heroui/input';
-import { link as linkStyles } from '@heroui/theme';
 import NextLink from 'next/link';
-import clsx from 'clsx';
 import ThemeSwitch from '@/components/theme-switch';
 import routes from '@/configs/routes';
 import UserAvatar from '@/components/user-avatar';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { signOut } from '@/actions/auth-action';
 
 export default function Navbar() {
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: 'bg-default-100',
-        input: 'text-sm',
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={['command']}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      //   startContent={
-      //     <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      //   }
-      type="search"
-    />
-  );
-
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar
+      maxWidth="xl"
+      position="sticky"
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <p className="font-bold  text-2xl">Spendly.</p>
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {routes.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={clsx(
-                  linkStyles({ color: 'foreground' }),
-                  'data-[active=true]:text-primary data-[active=true]:font-medium'
-                )}
-                color="foreground"
-                href={item.href}
-              >
-                {item.label}
-              </NextLink>
-            </NavbarItem>
-          ))}
+
+        <ul className="hidden sm:flex gap-4 justify-start ml-2">
+          {routes.map((item) => {
+            const isActive = pathname.includes(item.href);
+            return (
+              <NavbarItem key={item.href} isActive={isActive}>
+                <NextLink
+                  className={`${isActive ? 'text-primary font-bold' : ''}`}
+                  color="foreground"
+                  href={item.href}
+                >
+                  {item.label}
+                </NextLink>
+              </NavbarItem>
+            );
+          })}
         </ul>
       </NavbarContent>
 
@@ -70,41 +56,48 @@ export default function Navbar() {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
-          {/* <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Discord" href={siteConfig.links.discord}>
-            <DiscordIcon className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-            <GithubIcon className="text-default-500" />
-          </Link> */}
           <ThemeSwitch />
         </NavbarItem>
-        {/* <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem> */}
         <NavbarItem className="hidden md:flex">
           <UserAvatar />
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        {/* <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
-        <ThemeSwitch /> */}
         <NavbarMenuToggle />
       </NavbarContent>
 
       <NavbarMenu>
-        {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {routes.map((route) => (
-            <NavbarMenuItem key={route.href}>
-              <Link color={'foreground'} href={route.href} size="lg">
-                {route.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
+          {routes.map((route) => {
+            const isActive = pathname.includes(route.href);
+            return (
+              <NavbarMenuItem key={route.href}>
+                <Link
+                  color={'foreground'}
+                  className={`${isActive ? 'text-primary font-bold' : ''}`}
+                  href={route.href}
+                  size="lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {route.label}
+                </Link>
+              </NavbarMenuItem>
+            );
+          })}
+          <NavbarMenuItem>
+            <Link
+              color={'danger'}
+              size="lg"
+              onClick={async () => {
+                await signOut();
+                setIsMenuOpen(false);
+              }}
+              className="font-bold cursor-pointer"
+            >
+              Log out
+            </Link>
+          </NavbarMenuItem>
         </div>
       </NavbarMenu>
     </HeroUINavbar>

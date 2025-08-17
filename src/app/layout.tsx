@@ -3,6 +3,7 @@ import Providers from '@/providers/hero-ui';
 import '@/styles/globals.css';
 import { fontMono, fontSans } from '@/configs/fonts';
 import QueryProvider from '@/providers/query';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,7 +20,7 @@ export default function RootLayout({
       <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
         <QueryProvider>
           <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-            {children}
+            <Suspense>{children}</Suspense>
           </Providers>
         </QueryProvider>
       </body>

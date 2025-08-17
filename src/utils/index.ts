@@ -4,3 +4,7 @@ export function hexToRgba(hex: string, alpha: string): string {
   const b = parseInt(hex.slice(5, 7), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+export const formatCurrency = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'VND',
+});

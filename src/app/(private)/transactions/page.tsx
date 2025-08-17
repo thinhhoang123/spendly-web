@@ -1,10 +1,11 @@
-'use client';
-import { Button } from '@heroui/react';
-import { Search } from 'lucide-react';
-import TransactionTable from './transaction-table';
-import { DateRangePicker, Input } from '@heroui/react';
+import { Button } from '@heroui/button';
+import TransactionTable from './_components/transaction-table';
+import { DateRangePicker } from '@heroui/date-picker';
 import AddTransaction from './_components/add-transactions';
-export default function Transactions() {
+import { getTransactions } from '@/actions/transaction-actions';
+import { TransactionResponse } from '@/models/interfaces/ITransactions';
+export default async function Transactions() {
+  const transactions: TransactionResponse[] = await getTransactions();
   return (
     <section className="flex flex-col gap-12">
       <div className="flex items-center justify-between">
@@ -17,25 +18,22 @@ export default function Transactions() {
       <div className="flex flex-col gap-4">
         <div className="flex justify-between flex-wrap">
           <div className="w-full">
-            <Input
+            {/* <Input
               className="max-w-62"
               aria-label="Search"
-              labelPlacement="outside"
               placeholder="Search..."
               startContent={
                 <Search className="text-base text-default-400 pointer-events-none flex-shrink-0" />
               }
               type="search"
-              radius="full"
-            />
+            /> */}
           </div>
           <div className="flex gap-4 w-full justify-end">
-            <DateRangePicker radius="full" className="max-w-62" />
-
-            <Button radius="full">Export csv</Button>
+            <DateRangePicker className="max-w-62" />
+            <Button>Export csv</Button>
           </div>
         </div>
-        <TransactionTable />
+        <TransactionTable transactions={transactions} />
       </div>
     </section>
   );

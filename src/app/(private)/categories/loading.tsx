@@ -1,4 +1,5 @@
-import CategoryCardSkeleton from './_components/card-skeleton';
+import KINDS from '@/constants/kinds';
+import TabCategory from './_components/tab-category';
 
 export default function Loading() {
   return (
@@ -6,11 +7,7 @@ export default function Loading() {
       <div className="flex items-center justify-between">
         <p className="text-2xl font-bold">Categories</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {Array.from({ length: 12 }, (_, index) => (
-          <CategoryCardSkeleton key={index} />
-        ))}
-      </div>
+      <TabCategory value={KINDS.EXPENSE.toString()} />
     </section>
   );
 }

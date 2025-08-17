@@ -1,29 +1,23 @@
-'use client';
-import Category from '@/models/Category';
 import { hexToRgba } from '@/utils';
-import {
-  Button,
-  Card,
-  CardBody,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from '@heroui/react';
+import { Card, CardBody } from '@heroui/card';
 import { DynamicIcon, IconName } from 'lucide-react/dynamic';
 import EmptyCategories from './empty-state';
 import { BACKGROUND_OPACITY } from '@/constants';
-import { EllipsisVertical, Pen, Trash } from 'lucide-react';
+import { getCategoriesByKind } from '@/actions/category-actions';
+import CardActions from './card-action';
 
 interface ListCategoriesProps {
-  categories?: Category[];
+  kind: string;
 }
 
-export default function ListCategories({ categories }: ListCategoriesProps) {
+export default async function ListCategories({ kind }: ListCategoriesProps) {
+  const categories = await getCategoriesByKind(kind);
+
   if (!categories || categories?.length == 0) return <EmptyCategories />;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {categories?.map((category) => {
+      {categories.map((category) => {
         return (
           <Card key={category.id}>
             <CardBody className="flex flex-row items-center gap-3 justify-between">
@@ -45,27 +39,7 @@ export default function ListCategories({ categories }: ListCategoriesProps) {
                 </div>
                 <p className="text-lg font-medium">{category.name}</p>
               </div>
-
-              <Dropdown placement="bottom-start">
-                <DropdownTrigger>
-                  <Button isIconOnly variant="light" radius="full">
-                    <EllipsisVertical color="gray" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="User Actions" variant="flat">
-                  <DropdownItem key="edit" startContent={<Pen size={16} />}>
-                    Edit
-                  </DropdownItem>
-                  <DropdownItem
-                    key="delete"
-                    color="danger"
-                    className="text-danger"
-                    startContent={<Trash size={16} />}
-                  >
-                    Delete
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+              <CardActions />
             </CardBody>
           </Card>
         );

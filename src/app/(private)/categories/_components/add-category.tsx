@@ -24,7 +24,9 @@ export default function AddCategory() {
     createCategory,
     initialState
   );
+
   console.log(state);
+
   return (
     <>
       <Button isIconOnly color="primary" radius="full" onPress={onOpen}>
@@ -39,16 +41,12 @@ export default function AddCategory() {
               </ModalHeader>
               <form action={formAction}>
                 <ModalBody>
-                  <ScrollShadow className="h-[600px]">
+                  <ScrollShadow className="h-[400px]">
                     <div className="flex flex-col gap-6">
                       <Input
                         label="Category name"
-                        placeholder="Category"
                         type="name"
-                        id="name"
                         name="name"
-                        radius="full"
-                        labelPlacement="outside-top"
                         isRequired
                       />
                       <KindSelect name="kind" label="Kinds" />

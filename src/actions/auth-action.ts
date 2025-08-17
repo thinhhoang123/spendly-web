@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import loginSchema from './schemas/login';
 import { User } from '@/models/UserToken';
-import ActionResponse from '@/models/ActionResponse';
+import ActionResponse from '@/models/interfaces/ActionResponse';
 import LoginRequest from '@/models/LoginRequest';
 
 export async function login(

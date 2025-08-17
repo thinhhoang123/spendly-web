@@ -3,7 +3,7 @@ import { login } from '@/actions/auth-action';
 import Alert from '@/components/alert';
 import PasswordInput from '@/components/password-input';
 import SubmitButton from '@/components/submit-btn';
-import ActionResponse from '@/models/ActionResponse';
+import ActionResponse from '@/models/interfaces/ActionResponse';
 import LoginRequest from '@/models/LoginRequest';
 import { Input } from '@heroui/react';
 import { useActionState } from 'react';
@@ -25,26 +25,20 @@ export default function LoginForm() {
 
       <Input
         label="Email"
-        placeholder="Enter your email"
         type="email"
         id="email"
         name="email"
-        labelPlacement="outside-top"
         isRequired
-        radius="full"
         defaultValue={state?.inputs?.email}
       />
       <PasswordInput
         label="Password"
-        placeholder="Enter your password"
         id="password"
         name="password"
         isRequired
-        labelPlacement="outside-top"
-        radius="full"
         defaultValue={state?.inputs?.password}
       />
-      <SubmitButton className="mt-2" isLoading={isPending}>
+      <SubmitButton isLoading={isPending} size="lg">
         Login
       </SubmitButton>
     </form>

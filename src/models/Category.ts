@@ -7,4 +7,5 @@ export default interface Category {
   name: string;
   icon: IconName;
   color: string;
+  kind: number;
 }

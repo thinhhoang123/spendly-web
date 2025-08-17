@@ -5,7 +5,7 @@ import Category from '@/models/Category';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { getUserId } from './auth-action';
-import ActionResponse from '@/models/ActionResponse';
+import ActionResponse from '@/models/interfaces/ActionResponse';
 import CategoryRequest from '@/models/CategoryRequest';
 
 export async function getCategories() {
@@ -16,6 +16,25 @@ export async function getCategories() {
     .from(SUPABASE_TABLE.CATEGORIES)
     .select('*')
     .eq('created_by', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching data:', error);
+    return;
+  }
+
+  return data as Category[];
+}
+
+export async function getCategoriesByKind(kind: string) {
+  const supabase = await createClient();
+  const userId = await getUserId();
+
+  const { data, error } = await supabase
+    .from(SUPABASE_TABLE.CATEGORIES)
+    .select('*')
+    .eq('created_by', userId)
+    .eq('kind', kind)
     .order('created_at', { ascending: false });
 
   if (error) {
