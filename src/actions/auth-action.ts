@@ -1,12 +1,12 @@
 'use server';
 
+import LoginRequest from '@/interfaces/requests/LoginRequest';
+import ActionResponse from '@/interfaces/responses/ActionResponse';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/utils/supabase/server';
 import loginSchema from './schemas/login';
-import { User } from '@/models/UserToken';
-import ActionResponse from '@/models/interfaces/ActionResponse';
-import LoginRequest from '@/models/LoginRequest';
+import { createClient } from '@/lib/supabase/server';
+import { User } from '@supabase/supabase-js';
 
 export async function login(
   _: ActionResponse<LoginRequest> | null,
@@ -45,8 +45,6 @@ export async function login(
 export async function signup(formData: FormData): Promise<void> {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -64,22 +62,18 @@ export async function signup(formData: FormData): Promise<void> {
 
 export async function signOut() {
   const supabase = await createClient();
-
   const { error } = await supabase.auth.signOut();
   if (error) {
     redirect('/error');
   }
-
   redirect('/login');
 }
 
-export async function getUserInformation(): Promise<User> {
+export async function getUserInformation(): Promise<User | null> {
   const supabase = await createClient();
-  const session = await supabase.auth.getSession();
-  return session.data.session?.user as User;
-}
-
-export async function getUserId() {
-  const user = await getUserInformation();
-  return user.identities[0].user_id;
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    redirect('/login');
+  }
+  return data.user;
 }

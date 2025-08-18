@@ -1,16 +1,21 @@
-export default async function AuthLayout({
+import { GalleryVerticalEnd } from 'lucide-react';
+
+export default function AuthLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <section className=" container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-      <div className="flex flex justify-center items-center flex-col gap-8 pt-24">
-        <div className="flex gap-2 justify-center">
-          <h1 className="font-bold text-xl">Spendly.</h1>
-        </div>
+    <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <a href="#" className="flex items-center gap-2 self-center font-medium">
+          <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+            <GalleryVerticalEnd className="size-4" />
+          </div>
+          Acme Inc.
+        </a>
         {children}
       </div>
-    </section>
+    </div>
   );
 }
