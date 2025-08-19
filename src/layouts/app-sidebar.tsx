@@ -74,7 +74,7 @@ const data = {
       items: [
         {
           title: 'Categories',
-          url: 'settings/categories',
+          url: '/settings/categories',
         },
         {
           title: 'Team',
