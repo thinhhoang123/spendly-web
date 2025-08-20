@@ -24,10 +24,10 @@ export default function SettingLayout({
       </div>
 
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 sm:col-span-2">
+        <div className="col-span-12 md:col-span-2">
           <NavigationMenu viewport={false}>
-            <NavigationMenuList>
-              <NavigationMenuItem>
+            <NavigationMenuList className="md:flex-col md:justify-start">
+              <NavigationMenuItem className="w-full">
                 <NavigationMenuLink asChild>
                   <Link
                     href="categories"
@@ -37,15 +37,17 @@ export default function SettingLayout({
                     Categories
                   </Link>
                 </NavigationMenuLink>
-                {/* <NavigationMenuLink asChild>
+              </NavigationMenuItem>
+              <NavigationMenuItem className="w-full">
+                <NavigationMenuLink asChild>
                   <Link
                     href="categories"
                     className="flex flex-row gap-2 items-center"
                   >
                     <Boxes />
-                    Categories
+                    General
                   </Link>
-                </NavigationMenuLink> */}
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>

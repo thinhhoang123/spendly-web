@@ -58,7 +58,7 @@ export function LoginForm({
                   />
                 </div>
                 <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? <Loader2Icon className="animate-spin" /> : null}
+                  {isPending && <Loader2Icon className="animate-spin" />}
                   Login
                 </Button>
               </div>
