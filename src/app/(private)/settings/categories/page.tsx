@@ -1,9 +1,11 @@
-import { getCategories } from '@/actions/category-actions';
 import CategoryFrom from '@/components/category/category-form';
-import CategoryList from '@/components/category/category-list';
+import CategoryList, {
+  CategoryListSkeleton,
+} from '@/components/category/category-list';
 import SearchInput from '@/components/search-input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Suspense } from 'react';
 
 export default async function CategoryPage(props: {
   searchParams?: Promise<{
@@ -13,7 +15,6 @@ export default async function CategoryPage(props: {
 }) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
-  const categories = await getCategories(query);
 
   return (
     <section>
@@ -27,7 +28,9 @@ export default async function CategoryPage(props: {
       <ScrollArea className="md:h-[700px]">
         <div className="-mx-1 px-1.5 pt-4 flex flex-col gap-4">
           <SearchInput />
-          <CategoryList categories={categories ?? []} />
+          <Suspense fallback={<CategoryListSkeleton />}>
+            <CategoryList query={query} />
+          </Suspense>
         </div>
       </ScrollArea>
     </section>
