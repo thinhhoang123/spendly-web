@@ -7,7 +7,7 @@ import SUPABASE_TABLE from '@/lib/constants/supbase-table';
 import { revalidatePath } from 'next/cache';
 import Category from '@/interfaces/responses/Category';
 
-export async function getCategories() {
+export async function getCategories(query?: string) {
   const supabase = await createClient();
   const user = await getUserInformation();
 
@@ -15,6 +15,7 @@ export async function getCategories() {
     .from(SUPABASE_TABLE.CATEGORIES)
     .select('*')
     .eq('createdBy', user?.id ?? '')
+    .ilike('name', `%${query}%`)
     .order('createdAt', { ascending: false });
 
   if (error) {

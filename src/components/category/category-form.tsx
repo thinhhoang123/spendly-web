@@ -48,12 +48,16 @@ export default function CategoryFrom() {
               <Label htmlFor="name-1">Emoji & Name</Label>
               <div className="flex gap-2">
                 <SpendlyEmojiPicker name="icon" color={color} />
-                <Input id="name-1" name="name" />
+                <Input id="name-1" name="name" required />
               </div>
             </div>
             <div className="grid gap-3">
               <Label htmlFor="name-1">Color</Label>
-              <ColorSelect name="color" onChange={(value) => setColor(value)} />
+              <ColorSelect
+                name="color"
+                value={color}
+                onChange={(value) => setColor(value)}
+              />
             </div>
             <div className="grid gap-3">
               <Label htmlFor="name-1">Transaction types</Label>

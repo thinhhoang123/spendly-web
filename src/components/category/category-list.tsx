@@ -11,14 +11,19 @@ export default function CategoryList({
   );
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <p>Expenses</p>
-        <ListItem categories={groupByType.expense} />
-      </div>
-      <div className="flex flex-col gap-2">
-        <p>Income</p>
-        <ListItem categories={groupByType.income} />
-      </div>
+      {groupByType.expense && groupByType.expense?.length > 0 ? (
+        <div className="flex flex-col gap-2">
+          <p>Expenses</p>
+          <ListItem categories={groupByType.expense} />
+        </div>
+      ) : null}
+
+      {groupByType.income && groupByType.income?.length > 0 ? (
+        <div className="flex flex-col gap-2">
+          <p>Income</p>
+          <ListItem categories={groupByType.income} />
+        </div>
+      ) : null}
     </div>
   );
 }

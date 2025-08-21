@@ -5,12 +5,17 @@ import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 interface ColorSelectProps {
   name?: string;
   onChange: (value: string) => void;
+  value?: string;
 }
-export default function ColorSelect({ name, onChange }: ColorSelectProps) {
+export default function ColorSelect({
+  name,
+  value,
+  onChange,
+}: ColorSelectProps) {
   return (
     <RadioGroup
       name={name}
-      defaultValue={colors[0]}
+      defaultValue={value ?? colors[0]}
       className="flex flex-wrap gap-2"
       onChange={(event) => onChange?.((event.target as HTMLInputElement).value)}
     >
@@ -22,7 +27,7 @@ export default function ColorSelect({ name, onChange }: ColorSelectProps) {
         >
           <RadioGroupItem
             value={color}
-            className="border-none shadow-none cursor-pointer data-[state=checked]:bg-white/20"
+            className="border-none shadow-none cursor-pointer"
           />
         </Label>
       ))}

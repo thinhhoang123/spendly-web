@@ -16,7 +16,7 @@ export default function CategoryItem({
     >
       <div className="flex gap-2">
         <span
-          className="w-12 h-12 flex justify-center items-center rounded-full"
+          className="w-12 h-12 flex justify-center items-center rounded-full text-shadow-sm"
           style={{ backgroundColor: color }}
         >
           {icon}
