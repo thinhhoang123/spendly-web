@@ -1,55 +1,79 @@
-'use server'
+'use server';
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+import LoginRequest from '@/interfaces/requests/LoginRequest';
+import ActionResponse from '@/interfaces/responses/ActionResponse';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import loginSchema from './schemas/login';
+import { createClient } from '@/lib/supabase/server';
+import { User } from '@supabase/supabase-js';
 
-import { createClient } from '@/utils/supabase/server'
-
-export async function login(formData: FormData) {
-  const supabase = await createClient()
-
-  const data = {
+export async function login(
+  _: ActionResponse<LoginRequest> | null,
+  formData: FormData
+): Promise<ActionResponse<LoginRequest>> {
+  const data: LoginRequest = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
+  };
+
+  const validatedFields = loginSchema.safeParse(data);
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message: '',
+      errors: validatedFields.error.flatten().fieldErrors,
+      inputs: data,
+    };
   }
-
-  const { error } = await supabase.auth.signInWithPassword(data)
-
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword(data);
+  console.log(error);
   if (error) {
-    redirect('/error')
+    return {
+      success: false,
+      message: 'Incorrect email or password',
+      inputs: data,
+    };
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  revalidatePath('/', 'layout');
+  redirect('/');
 }
 
-export async function signup(formData: FormData) {
-  const supabase = await createClient()
+export async function signup(formData: FormData): Promise<void> {
+  const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
-  }
+  };
 
-  const { error } = await supabase.auth.signUp(data)
+  const { error } = await supabase.auth.signUp(data);
 
   if (error) {
-    redirect('/error')
+    redirect('/error');
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  revalidatePath('/', 'layout');
+  redirect('/');
 }
 
 export async function signOut() {
-  const supabase = await createClient()
-
-  const { error } = await supabase.auth.signOut()
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
   if (error) {
-    redirect('/error')
+    redirect('/error');
   }
+  redirect('/login');
+}
 
-  redirect('/login')
+export async function getUserInformation(): Promise<User | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    redirect('/login');
+  }
+  return data.user;
 }

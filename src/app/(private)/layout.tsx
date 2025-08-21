@@ -1,9 +1,9 @@
-import Layout from '@/layouts';
+import AppLayout from '@/layouts';
 
-export default async function PrivateLayout({
+export default function PrivateLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  return <Layout>{children}</Layout>;
+}) {
+  return <AppLayout>{children}</AppLayout>;
 }
